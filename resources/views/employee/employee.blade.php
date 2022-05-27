@@ -3,14 +3,15 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-11">
             <div class="card">
-                <div class="card-header">{{ __('Company') }}</div>
+                <div class="card-header">{{ __('Employee') }}</div>
 
                 <div class="card-body">
+
                     <div class="pb-5 w-100 d-flex flex-row-reverse">
-                        <a href="{{ route('company.create') }}" class="btn btn-primary">
-                            <i class="fa-solid fa-plus"></i> {{ __('New').__('Company') }}
+                        <a href="{{ route('employee.create') }}" class="btn btn-primary">
+                            <i class="fa-solid fa-plus"></i> {{ __('New').' '.__('Employee') }}
                         </a>
                     </div>
 
@@ -41,10 +42,13 @@
                                     Name
                                 </th>
                                 <th scope="col">
-                                    Web page
+                                    Email
                                 </th>
                                 <th scope="col">
-                                    Employees
+                                    Phone
+                                </th>
+                                <th scope="col">
+                                    Company
                                 </th>
                                 <th scope="col">
                                     Options
@@ -52,31 +56,33 @@
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($companies as $company)
+                                @foreach ($employees as $employee)
                                     <tr>
                                         <th scope="row">
-                                            {{ $company->id }}
+                                            {{ $employee->id }}
                                         </th>
                                         <td>
-                                            @if (isset($company->logo))
-                                                <img src="{{$company->logo}}" alt="{{ $company->name}}" class="logo-100x100 img-fluid rounded-circle app-mini-logo" />
-                                            @endif
-                                            {{ $company->name }}
+                                            {{ $employee->first_name . $employee->last_name}}
                                         </td>
                                         <td>
-                                            @if (isset($company->web_page))
-                                                <a href="{{$company->web_page}}" target="_blank">
-                                                    {{parse_url($company->web_page)['host']}}
+                                            <a href="mailto:{{ $employee->email }}">
+                                                {{ $employee->email }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (isset($employee->phone))
+                                                <a href="tel:{{ $employee->phone }}">
+                                                    {{ $employee->phone }}
                                                 </a>
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            {{ $company->employee_count }}
+                                        <td>
+                                            {{ $employee->company->name}}
                                         </td>
                                         <td>
                                             <div class="btn-group-sm" role="group" aria-label="Options">
 
-                                                <form method="post" class="btn p-0" action="{{route('company.destroy', $company->id)}}"  name="company_{{$company->id}}" id="company_{{$company->id}}" >
+                                                <form method="post" class="btn p-0" action="{{route('employee.destroy', $employee->id)}}"  name="employee_{{$employee->id}}" id="employee_{{$employee->id}}" >
                                                     @method('delete')
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-danger" >
@@ -84,7 +90,7 @@
                                                     </button>
                                                 </form>
 
-                                                <a href="{{ route('company.edit', $company->id) }}" type="button" class="btn btn-sm btn-warning">
+                                                <a href="{{ route('employee.edit', $employee->id) }}" type="button" class="btn btn-sm btn-warning">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                             </div>
@@ -100,4 +106,3 @@
     </div>
 </div>
 @endsection
-

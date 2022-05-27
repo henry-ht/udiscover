@@ -50,11 +50,11 @@
 
                         @csrf
                          <div class="form-group mb-3">
-                           <label for="name">Name</label>
+                           <label for="name">Name *</label>
                            <input type="text" id="name" name="name" class="form-control" required value="{{ $company->name ?? request()->old('name')}}" />
                         </div>
                         <div class="form-group mb-3">
-                            <label for="email">Email</label>
+                            <label for="email">Email *</label>
                             <input type="email" id="email" name="email" class="form-control" required value="{{$company->email ?? request()->old('email')}}" />
                         </div>
 
@@ -65,7 +65,7 @@
 
                         <div class="form-group mb-3">
                             <label for="logo">Logo</label>
-                            <input type="file" id="logo" name="logo" class="form-control" />
+                            <input type="file" id="logo" name="logo" class="form-control" required />
                         </div>
 
                         @if (isset($edit_mode) && isset($company->logo))
