@@ -18,7 +18,7 @@ class EmployeePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -30,7 +30,7 @@ class EmployeePolicy
      */
     public function view(User $user, Employee $employee)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -41,7 +41,7 @@ class EmployeePolicy
      */
     public function create(User $user)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -53,7 +53,7 @@ class EmployeePolicy
      */
     public function update(User $user, Employee $employee)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -65,7 +65,7 @@ class EmployeePolicy
      */
     public function delete(User $user, Employee $employee)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -77,7 +77,7 @@ class EmployeePolicy
      */
     public function restore(User $user, Employee $employee)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -89,6 +89,6 @@ class EmployeePolicy
      */
     public function forceDelete(User $user, Employee $employee)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 }
