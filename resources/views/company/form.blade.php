@@ -3,9 +3,16 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
-                <div class="card-header">{{ __('New').__('Company') }}</div>
+                <div class="card-header">
+                    @if (isset($edit_mode))
+                        {{__('Edit')}}
+                    @else
+                        {{__('New')}}
+                    @endif
+                    {{__('Company') }}
+                </div>
 
                 <div class="card-body">
                     @error('error')
@@ -35,29 +42,46 @@
                         </div>
                     @endif
 
-                    <form method="post" action="{{route('company.store')}}" enctype="multipart/form-data" >
+                    <form method="post" action="{{isset($edit_mode) ? route('company.update',$company->id):route('company.store')}}" enctype="multipart/form-data" >
+
+                        @if (isset($edit_mode))
+                            @method('PUT')
+                        @endif
+
                         @csrf
                          <div class="form-group mb-3">
                            <label for="name">Name</label>
-                           <input type="text" id="name" name="name" class="form-control" required value="{{request()->old('name')}}" />
+                           <input type="text" id="name" name="name" class="form-control" required value="{{ $company->name ?? request()->old('name')}}" />
                         </div>
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" required value="{{request()->old('email')}}" />
+                            <input type="email" id="email" name="email" class="form-control" required value="{{$company->email ?? request()->old('email')}}" />
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="web_page">Web page</label>
-                            <input type="url" id="web_page" name="web_page" class="form-control" value="{{request()->old('web_page')}}" />
+                            <input type="url" id="web_page" name="web_page" class="form-control" value="{{ $company->web_page ?? request()->old('web_page')}}" />
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="logo">Logo</label>
-                            <input type="file" id="logo" name="logo" class="form-control" value="{{request()->old('logo')}}" />
+                            <input type="file" id="logo" name="logo" class="form-control" />
                         </div>
 
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        @if (isset($edit_mode) && isset($company->logo))
+                            <div class="form-group mb-3">
+                                <img src="{{$company->logo}}" alt="{{ $company->name}}" class="logo-100x100 img-fluid app-mini-logo" />
+                            </div>
+                        @endif
+
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-primary">
+                                @if (isset($edit_mode))
+                                    {{__('Edit')}}
+                                @else
+                                    {{__('Submit')}}
+                                @endif
+                            </button>
                         </div>
                     </form>
                 </div>

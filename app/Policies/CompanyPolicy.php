@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyPolicy
 {
@@ -18,7 +19,7 @@ class CompanyPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -30,7 +31,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -41,7 +42,7 @@ class CompanyPolicy
      */
     public function create(User $user)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -53,7 +54,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -65,7 +66,7 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -77,7 +78,7 @@ class CompanyPolicy
      */
     public function restore(User $user, Company $company)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 
     /**
@@ -89,6 +90,6 @@ class CompanyPolicy
      */
     public function forceDelete(User $user, Company $company)
     {
-        //
+        return Gate::allows('isAdmin');
     }
 }

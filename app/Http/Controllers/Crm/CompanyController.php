@@ -38,7 +38,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('company.create', []);
+        return view('company.form', []);
     }
 
     /**
@@ -99,7 +99,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('company.create', ['company' => $company]);
+        return view('company.form', ['company' => $company, 'edit_mode' => true]);
     }
 
     /**
@@ -111,7 +111,36 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $credentials = $request->only([
+            'name',
+            'email',
+            'logo',
+            'web_page',
+        ]);
+
+        try {
+            if(isset($credentials['logo'])){
+                $logo = $request->file('logo');
+                $filePath = $logo->storeAs('uploads', $logo->getClientOriginalName(), 'public');
+                $credentials['logo'] = '/storage/' . $filePath;
+            }
+
+            $okUpdate = $company->fill($credentials)->save();
+
+            if(isset($okUpdate)){
+                return back()
+                    ->withInput(['company' => $okUpdate])
+                    ->with('success','Successfully');
+            }
+            return back()
+                ->withInput($credentials)
+                ->with('error','try egain');
+
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput($credentials)
+                ->with('error','ups not working');
+        }
     }
 
     /**
@@ -122,6 +151,17 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        if($company->loadCount(['employee'])->employee_count == 0){
+            $delete = $company->delete();
+            if(isset($delete)){
+                return back()
+                        ->with('success','Successfully');
+            }
+        }else{
+            return back()
+                    ->with('error','first delete the employees');
+        }
+
+
     }
 }

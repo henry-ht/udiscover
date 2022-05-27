@@ -52,13 +52,13 @@
                                 </li>
                             @endif
                         @else
-                            @if (Route::has('company.index'))
+                            @if (Route::has('company.index') && Gate::allows('isAdmin'))
                                 <li class="nav-item">
                                     <a class="nav-link {{Route::currentRouteName() == 'company.index' ? 'active':''}}" href="{{ route('company.index') }}">{{ __('Company') }}</a>
                                 </li>
                             @endif
 
-                            @if (Route::has('employee.index'))
+                            @if (Route::has('employee.index') && Gate::allows('isAdmin'))
                                 <li class="nav-item">
                                     <a class="nav-link {{Route::currentRouteName() == 'employee.index' ? 'active':''}}" href="{{ route('employee.index') }}">{{ __('Employee') }}</a>
                                 </li>
