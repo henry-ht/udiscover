@@ -65,7 +65,11 @@
 
                         <div class="form-group mb-3">
                             <label for="logo">Logo</label>
-                            <input type="file" id="logo" name="logo" class="form-control" required />
+                            <input type="file" id="logo" name="logo" class="form-control"
+                                @if (!isset($edit_mode))
+                                    required
+                                @endif
+                            />
                         </div>
 
                         @if (isset($edit_mode) && isset($company->logo))
