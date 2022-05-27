@@ -10,13 +10,25 @@ use App\Http\Requests\UpdateCompanyRequest;
 class CompanyController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $companies = Company::withCount(['employee'])->get();
+
+        return view('company.companies', ['companies' => $companies]);
     }
 
     /**
@@ -26,7 +38,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('company.create', []);
     }
 
     /**
@@ -37,7 +49,35 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        $credentials = $request->only([
+            'name',
+            'email',
+            'logo',
+            'web_page',
+        ]);
+
+        try {
+            if(isset($credentials['logo'])){
+                $logo = $request->file('logo');
+                $filePath = $logo->storeAs('uploads', $logo->getClientOriginalName(), 'public');
+                $credentials['logo'] = '/storage/' . $filePath;
+            }
+            $okStore = Company::create($credentials);
+
+            if(isset($okStore)){
+                return back()
+                    ->with('success','Successfully');
+            }
+            return back()
+                ->withInput($credentials)
+                ->with('error','try egain');
+
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput($credentials)
+                ->with('error','ups not working');
+        }
+
     }
 
     /**
@@ -59,7 +99,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        return view('company.create', ['company' => $company]);
     }
 
     /**

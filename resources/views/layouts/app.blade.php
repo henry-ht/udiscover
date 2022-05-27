@@ -52,6 +52,18 @@
                                 </li>
                             @endif
                         @else
+                            @if (Route::has('company.index'))
+                                <li class="nav-item">
+                                    <a class="nav-link {{Route::currentRouteName() == 'company.index' ? 'active':''}}" href="{{ route('company.index') }}">{{ __('Company') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('employee.index'))
+                                <li class="nav-item">
+                                    <a class="nav-link {{Route::currentRouteName() == 'employee.index' ? 'active':''}}" href="{{ route('employee.index') }}">{{ __('Employee') }}</a>
+                                </li>
+                            @endif
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

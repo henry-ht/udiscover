@@ -9,6 +9,8 @@ class Company extends Model
 {
     use HasFactory;
 
+    protected $appends = ['logo_url'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,11 @@ class Company extends Model
     ];
 
     public function employee(){
-        return $this->belongsTo(Employee::class);
+        return $this->hasMany(Employee::class);
+    }
+
+    public function getLogoUrlAttribute()
+    {
+        return url('/').$this->logo;
     }
 }
