@@ -26,7 +26,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::withCount(['employee'])->get();
+        $companies = Company::withCount(['employee'])->paginate(5);
 
         return view('company.companies', ['companies' => $companies]);
     }

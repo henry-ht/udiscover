@@ -100,6 +100,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{$employees}}
                 </div>
             </div>
         </div>

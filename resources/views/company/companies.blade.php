@@ -94,6 +94,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{$companies}}
                 </div>
             </div>
         </div>
